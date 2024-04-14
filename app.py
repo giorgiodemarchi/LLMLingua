@@ -1,15 +1,12 @@
 from llmlingua import PromptCompressor
-from fastapi import FastAPI
+import runpod
 
-app = FastAPI()
 llm_lingua = PromptCompressor()
 
-@app.get("/compress")
+def transform_prompt(job):   
 
-async def compress_prompt(input_prompt: str):
-    """
-    Calls LLMLingua PromptCompressor and returns the compressed prompt
-    """
+    job_input = job["input"]
+    input_prompt = job_input["input_prompt"]
 
     lines = input_prompt.splitlines()
 
@@ -20,3 +17,5 @@ async def compress_prompt(input_prompt: str):
     compressed_prompt = llm_lingua.compress_prompt(context, instruction="", question=question, target_token=500)
 
     return compressed_prompt['compressed_prompt']
+
+runpod.serverless.start({"handler": transform_prompt})
