@@ -16,6 +16,6 @@ def transform_prompt(job):
     
     compressed_prompt = llm_lingua.compress_prompt(context, instruction="", question=question, target_token=500)
 
-    return compressed_prompt['compressed_prompt']
+    return compressed_prompt
 
 runpod.serverless.start({"handler": transform_prompt})
